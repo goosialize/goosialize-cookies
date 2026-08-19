@@ -21,3 +21,19 @@ PLUGIN_GOOSIALIZE_COOKIES:
     MARKETING:
       TITLE: Marketing
       DESCRIPTION: Used for advertising and marketing measurement.
+
+  UI:
+    BANNER_TITLE: Your privacy choices
+    BANNER_DESCRIPTION: We use necessary technologies to operate this website. Optional technologies are used only with your permission.
+    ACCEPT_ALL: Accept all
+    REJECT_ALL: Reject all
+    MANAGE_PREFERENCES: Manage preferences
+    SAVE_PREFERENCES: Save preferences
+    COOKIE_SETTINGS: Cookie settings
+    PREFERENCES_TITLE: Privacy preferences
+    PREFERENCES_DESCRIPTION: Choose which optional technologies this website may use. Necessary technologies are always active.
+    ALWAYS_ACTIVE: Always active
+    OPTIONAL: Optional
+    PRIVACY_POLICY: Privacy Policy
+    CLOSE: Close privacy preferences
+    SAVED: Your privacy preferences have been saved.

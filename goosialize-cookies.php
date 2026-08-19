@@ -13,6 +13,7 @@ final class GoosializeCookiesPlugin extends Plugin
         return [
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
             'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
+            'onOutputGenerated' => ['onOutputGenerated', 0],
         ];
     }
 
@@ -26,21 +27,25 @@ final class GoosializeCookiesPlugin extends Plugin
         if (!$this->isEnabled()) {
             return;
         }
-
-        // P1 intentionally contains no consent mutation,
-        // tracking interception, banner injection or API writes.
-        //
-        // P2 introduces the consent domain service.
     }
 
     public function onTwigSiteVariables(): void
     {
-        if (!$this->isEnabled()) {
+        if (
+            !$this->isEnabled() ||
+            $this->isAdmin()
+        ) {
             return;
         }
 
         $assets = $this->grav['assets'];
-        $twig = $this->grav['twig'];
+
+        $assets->addCss(
+            'plugin://goosialize-cookies/assets/css/consent.css',
+            [
+                'priority' => 100,
+            ]
+        );
 
         $assets->addJs(
             'plugin://goosialize-cookies/assets/js/consent.js',
@@ -58,11 +63,67 @@ final class GoosializeCookiesPlugin extends Plugin
             ]
         );
 
-        $twig->twig_vars[
-            'goosialize_cookies_runtime'
-        ] = $twig->processTemplate(
-            'partials/goosialize-cookies-runtime.html.twig'
+        $assets->addJs(
+            'plugin://goosialize-cookies/assets/js/ui.js',
+            [
+                'group' => 'bottom',
+                'priority' => 80,
+            ]
         );
+    }
+
+    public function onOutputGenerated(): void
+    {
+        if (
+            !$this->isEnabled() ||
+            $this->isAdmin()
+        ) {
+            return;
+        }
+
+        $output = (string) $this->grav->output;
+
+        if (
+            str_contains(
+                $output,
+                'data-goosialize-consent-root'
+            )
+        ) {
+            return;
+        }
+
+        $twig = $this->grav['twig'];
+
+        $markup = $twig->processTemplate(
+            'partials/goosialize-cookies-ui.html.twig'
+        );
+
+        if ($markup === '') {
+            return;
+        }
+
+        if (
+            preg_match(
+                '/<\/body\s*>/i',
+                $output
+            ) === 1
+        ) {
+            $updated = preg_replace(
+                '/<\/body\s*>/i',
+                $markup . "\n</body>",
+                $output,
+                1
+            );
+
+            if (is_string($updated)) {
+                $this->grav->output = $updated;
+            }
+
+            return;
+        }
+
+        $this->grav->output =
+            $output . $markup;
     }
 
     private function isEnabled(): bool

@@ -1,0 +1,248 @@
+{% set cookie_config = config.plugins['goosialize-cookies'] %}
+{% set policy_url = cookie_config.policy_url|default('') %}
+
+<div
+    class="goo-consent"
+    data-goosialize-consent-root
+    data-saved-message="{{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.SAVED'|t|e('html_attr') }}"
+>
+    <section
+        class="goo-consent__banner"
+        data-goosialize-consent-banner
+        aria-labelledby="goo-consent-banner-title"
+        aria-describedby="goo-consent-banner-description"
+        hidden
+    >
+        <div class="goo-consent__surface">
+            <div class="goo-consent__copy">
+                <h2
+                    class="goo-consent__title"
+                    id="goo-consent-banner-title"
+                >
+                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.BANNER_TITLE'|t|e }}
+                </h2>
+
+                <p
+                    class="goo-consent__description"
+                    id="goo-consent-banner-description"
+                >
+                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.BANNER_DESCRIPTION'|t|e }}
+                </p>
+
+                {% if policy_url %}
+                    <a
+                        class="goo-consent__policy"
+                        href="{{ policy_url|e('html_attr') }}"
+                    >
+                        {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.PRIVACY_POLICY'|t|e }}
+                    </a>
+                {% endif %}
+            </div>
+
+            <div
+                class="goo-consent__actions"
+                aria-label="{{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.BANNER_TITLE'|t|e('html_attr') }}"
+            >
+                <button
+                    type="button"
+                    class="goo-consent__button goo-consent__button--choice"
+                    data-goosialize-consent-action="accept-all"
+                >
+                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.ACCEPT_ALL'|t|e }}
+                </button>
+
+                <button
+                    type="button"
+                    class="goo-consent__button goo-consent__button--choice"
+                    data-goosialize-consent-action="reject-all"
+                >
+                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.REJECT_ALL'|t|e }}
+                </button>
+
+                <button
+                    type="button"
+                    class="goo-consent__button goo-consent__button--secondary"
+                    data-goosialize-consent-action="manage"
+                >
+                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.MANAGE_PREFERENCES'|t|e }}
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div
+        class="goo-consent__backdrop"
+        data-goosialize-consent-backdrop
+        hidden
+    >
+        <section
+            class="goo-consent__modal"
+            data-goosialize-consent-modal
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="goo-consent-modal-title"
+            aria-describedby="goo-consent-modal-description"
+            tabindex="-1"
+        >
+            <header class="goo-consent__modal-header">
+                <div>
+                    <h2
+                        class="goo-consent__title"
+                        id="goo-consent-modal-title"
+                    >
+                        {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.PREFERENCES_TITLE'|t|e }}
+                    </h2>
+
+                    <p
+                        class="goo-consent__description"
+                        id="goo-consent-modal-description"
+                    >
+                        {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.PREFERENCES_DESCRIPTION'|t|e }}
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="goo-consent__close"
+                    data-goosialize-consent-action="close"
+                    aria-label="{{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.CLOSE'|t|e('html_attr') }}"
+                >
+                    <span aria-hidden="true">×</span>
+                </button>
+            </header>
+
+            <div class="goo-consent__categories">
+                <article class="goo-consent__category">
+                    <div class="goo-consent__category-copy">
+                        <h3 class="goo-consent__category-title">
+                            {{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.NECESSARY.TITLE'|t|e }}
+                        </h3>
+
+                        <p class="goo-consent__category-description">
+                            {{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.NECESSARY.DESCRIPTION'|t|e }}
+                        </p>
+                    </div>
+
+                    <div class="goo-consent__category-control">
+                        <span class="goo-consent__required">
+                            {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.ALWAYS_ACTIVE'|t|e }}
+                        </span>
+
+                        <input
+                            type="checkbox"
+                            checked
+                            disabled
+                            aria-label="{{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.NECESSARY.TITLE'|t|e('html_attr') }}"
+                        >
+                    </div>
+                </article>
+
+                {% for category in ['preferences', 'analytics', 'marketing'] %}
+                    {% set key = category|upper %}
+
+                    <article class="goo-consent__category">
+                        <div class="goo-consent__category-copy">
+                            <h3 class="goo-consent__category-title">
+                                {% if category == 'preferences' %}
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.PREFERENCES.TITLE'|t|e }}
+                                {% elseif category == 'analytics' %}
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.ANALYTICS.TITLE'|t|e }}
+                                {% else %}
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.MARKETING.TITLE'|t|e }}
+                                {% endif %}
+                            </h3>
+
+                            <p class="goo-consent__category-description">
+                                {% if category == 'preferences' %}
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.PREFERENCES.DESCRIPTION'|t|e }}
+                                {% elseif category == 'analytics' %}
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.ANALYTICS.DESCRIPTION'|t|e }}
+                                {% else %}
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.MARKETING.DESCRIPTION'|t|e }}
+                                {% endif %}
+                            </p>
+                        </div>
+
+                        <label class="goo-consent__toggle">
+                            <span class="goo-consent__sr-only">
+                                {% if category == 'preferences' %}
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.PREFERENCES.TITLE'|t|e }}
+                                {% elseif category == 'analytics' %}
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.ANALYTICS.TITLE'|t|e }}
+                                {% else %}
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.CATEGORY.MARKETING.TITLE'|t|e }}
+                                {% endif %}
+                            </span>
+
+                            <input
+                                type="checkbox"
+                                data-goosialize-consent-category="{{ category }}"
+                            >
+
+                            <span
+                                class="goo-consent__toggle-track"
+                                aria-hidden="true"
+                            >
+                                <span class="goo-consent__toggle-thumb"></span>
+                            </span>
+                        </label>
+                    </article>
+                {% endfor %}
+            </div>
+
+            {% if policy_url %}
+                <a
+                    class="goo-consent__policy goo-consent__modal-policy"
+                    href="{{ policy_url|e('html_attr') }}"
+                >
+                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.PRIVACY_POLICY'|t|e }}
+                </a>
+            {% endif %}
+
+            <footer class="goo-consent__modal-actions">
+                <button
+                    type="button"
+                    class="goo-consent__button goo-consent__button--choice"
+                    data-goosialize-consent-action="save"
+                >
+                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.SAVE_PREFERENCES'|t|e }}
+                </button>
+
+                <button
+                    type="button"
+                    class="goo-consent__button goo-consent__button--choice"
+                    data-goosialize-consent-action="reject-all"
+                >
+                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.REJECT_ALL'|t|e }}
+                </button>
+
+                <button
+                    type="button"
+                    class="goo-consent__button goo-consent__button--choice"
+                    data-goosialize-consent-action="accept-all"
+                >
+                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.ACCEPT_ALL'|t|e }}
+                </button>
+            </footer>
+        </section>
+    </div>
+
+    <button
+        type="button"
+        class="goo-consent__settings"
+        data-goosialize-consent-action="manage"
+        data-goosialize-consent-settings
+        hidden
+    >
+        {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.COOKIE_SETTINGS'|t|e }}
+    </button>
+
+    <div
+        class="goo-consent__sr-only"
+        role="status"
+        aria-live="polite"
+        data-goosialize-consent-status
+    ></div>
+</div>
+
+{% include 'partials/goosialize-cookies-runtime.html.twig' %}

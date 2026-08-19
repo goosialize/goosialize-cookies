@@ -4,4 +4,14 @@ window.GoosializeConsentConfig = {
     lifetimeDays: {{ config.plugins['goosialize-cookies'].consent.lifetime_days|default(180)|json_encode|raw }},
     cookieName: {{ config.plugins['goosialize-cookies'].consent.cookie_name|default('goosialize_consent')|json_encode|raw }}
 };
+
+if (window.GoosializeConsent) {
+    window.GoosializeConsent.initialize(
+        window.GoosializeConsentConfig
+    );
+}
+
+if (window.GoosializeConsentUI) {
+    window.GoosializeConsentUI.init();
+}
 </script>
