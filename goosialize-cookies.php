@@ -12,6 +12,7 @@ final class GoosializeCookiesPlugin extends Plugin
     {
         return [
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
+            'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
         ];
     }
 
@@ -30,6 +31,38 @@ final class GoosializeCookiesPlugin extends Plugin
         // tracking interception, banner injection or API writes.
         //
         // P2 introduces the consent domain service.
+    }
+
+    public function onTwigSiteVariables(): void
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
+        $assets = $this->grav['assets'];
+        $twig = $this->grav['twig'];
+
+        $assets->addJs(
+            'plugin://goosialize-cookies/assets/js/consent.js',
+            [
+                'group' => 'bottom',
+                'priority' => 100,
+            ]
+        );
+
+        $assets->addJs(
+            'plugin://goosialize-cookies/assets/js/bootstrap.js',
+            [
+                'group' => 'bottom',
+                'priority' => 90,
+            ]
+        );
+
+        $twig->twig_vars[
+            'goosialize_cookies_runtime'
+        ] = $twig->processTemplate(
+            'partials/goosialize-cookies-runtime.html.twig'
+        );
     }
 
     private function isEnabled(): bool

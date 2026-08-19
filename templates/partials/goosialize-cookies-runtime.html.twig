@@ -1,0 +1,7 @@
+<script>
+window.GoosializeConsentConfig = {
+    consentVersion: {{ config.plugins['goosialize-cookies'].consent.version|default(1)|json_encode|raw }},
+    lifetimeDays: {{ config.plugins['goosialize-cookies'].consent.lifetime_days|default(180)|json_encode|raw }},
+    cookieName: {{ config.plugins['goosialize-cookies'].consent.cookie_name|default('goosialize_consent')|json_encode|raw }}
+};
+</script>
