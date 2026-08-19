@@ -1,0 +1,62 @@
+name: Goosialize Cookies
+slug: goosialize-cookies
+type: plugin
+version: 0.1.0
+description: Privacy-first cookie consent and consent infrastructure for the Goosialize ecosystem.
+icon: shield
+author:
+  name: Goosialize Ltd
+  email: info@goosialize.com
+  url: https://goosialize.com
+homepage: https://goosialize.com
+keywords:
+  - grav
+  - cookies
+  - consent
+  - privacy
+  - gdpr
+  - eprivacy
+  - admin2
+license: MIT
+
+compatibility:
+  grav:
+    - '2'
+
+dependencies:
+  - { name: grav, version: '>=2.0.0' }
+
+form:
+  validation: strict
+
+  fields:
+    enabled:
+      type: toggle
+      label: PLUGIN_GOOSIALIZE_COOKIES.ADMIN.ENABLED
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
+    consent.version:
+      type: number
+      label: PLUGIN_GOOSIALIZE_COOKIES.ADMIN.CONSENT_VERSION
+      default: 1
+      validate:
+        type: int
+        min: 1
+
+    consent.lifetime_days:
+      type: number
+      label: PLUGIN_GOOSIALIZE_COOKIES.ADMIN.CONSENT_LIFETIME
+      default: 180
+      validate:
+        type: int
+        min: 1
+
+    policy_url:
+      type: text
+      label: PLUGIN_GOOSIALIZE_COOKIES.ADMIN.PRIVACY_POLICY_URL

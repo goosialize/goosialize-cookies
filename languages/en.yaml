@@ -1,0 +1,23 @@
+PLUGIN_GOOSIALIZE_COOKIES:
+  NAME: Goosialize Cookies
+  DESCRIPTION: Privacy-first consent management for Grav.
+
+  ADMIN:
+    ENABLED: Enabled
+    CONSENT_VERSION: Consent version
+    CONSENT_LIFETIME: Consent lifetime (days)
+    PRIVACY_POLICY_URL: Privacy Policy URL
+
+  CATEGORY:
+    NECESSARY:
+      TITLE: Necessary
+      DESCRIPTION: Required for the website to function.
+    PREFERENCES:
+      TITLE: Preferences
+      DESCRIPTION: Used to remember optional visitor preferences.
+    ANALYTICS:
+      TITLE: Analytics
+      DESCRIPTION: Used to understand website usage and performance.
+    MARKETING:
+      TITLE: Marketing
+      DESCRIPTION: Used for advertising and marketing measurement.

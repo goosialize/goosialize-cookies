@@ -1,0 +1,23 @@
+PLUGIN_GOOSIALIZE_COOKIES:
+  NAME: Goosialize Cookies
+  DESCRIPTION: Διαχείριση συγκατάθεσης με privacy-first σχεδιασμό για το Grav.
+
+  ADMIN:
+    ENABLED: Ενεργό
+    CONSENT_VERSION: Έκδοση συγκατάθεσης
+    CONSENT_LIFETIME: Διάρκεια συγκατάθεσης (ημέρες)
+    PRIVACY_POLICY_URL: URL Πολιτικής Απορρήτου
+
+  CATEGORY:
+    NECESSARY:
+      TITLE: Απαραίτητα
+      DESCRIPTION: Απαιτούνται για τη λειτουργία του ιστοτόπου.
+    PREFERENCES:
+      TITLE: Προτιμήσεις
+      DESCRIPTION: Χρησιμοποιούνται για προαιρετικές επιλογές του επισκέπτη.
+    ANALYTICS:
+      TITLE: Αναλυτικά
+      DESCRIPTION: Χρησιμοποιούνται για την κατανόηση της χρήσης και απόδοσης του ιστοτόπου.
+    MARKETING:
+      TITLE: Μάρκετινγκ
+      DESCRIPTION: Χρησιμοποιούνται για διαφήμιση και μέτρηση ενεργειών μάρκετινγκ.

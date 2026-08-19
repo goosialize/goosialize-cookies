@@ -1,0 +1,36 @@
+enabled: true
+
+consent:
+  version: 1
+  lifetime_days: 180
+  cookie_name: goosialize_consent
+
+categories:
+  necessary:
+    enabled: true
+    required: true
+
+  preferences:
+    enabled: true
+    required: false
+    default: false
+
+  analytics:
+    enabled: true
+    required: false
+    default: false
+
+  marketing:
+    enabled: true
+    required: false
+    default: false
+
+policy_url: null
+
+integrations:
+  google:
+    enabled: false
+    consent_mode: basic
+
+developer:
+  debug: false
