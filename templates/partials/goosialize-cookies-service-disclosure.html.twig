@@ -1,0 +1,166 @@
+{% set services =
+    goosialize_cookies_services[category]
+    |default([])
+%}
+
+<div
+    class="goo-consent__services"
+    data-goosialize-consent-services="{{ category|e('html_attr') }}"
+>
+    <h4 class="goo-consent__services-title">
+        {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.SERVICES'|t|e }}
+    </h4>
+
+    {% if services is empty %}
+        <p class="goo-consent__services-empty">
+            {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.NO_SERVICES'|t|e }}
+        </p>
+    {% else %}
+        <div class="goo-consent__service-list">
+            {% for service in services %}
+                <details
+                    class="goo-consent__service"
+                    data-goosialize-consent-service="{{ service.id|e('html_attr') }}"
+                >
+                    <summary class="goo-consent__service-summary">
+                        <span class="goo-consent__service-name">
+                            {{ service.name|e }}
+                        </span>
+
+                        <span class="goo-consent__service-provider">
+                            {{ service.provider|e }}
+                        </span>
+                    </summary>
+
+                    <div class="goo-consent__service-body">
+                        <div class="goo-consent__service-field">
+                            <strong>
+                                {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.PURPOSE'|t|e }}
+                            </strong>
+
+                            <span>
+                                {{ service.purpose|e }}
+                            </span>
+                        </div>
+
+                        {% if service.privacy_url %}
+                            <div class="goo-consent__service-field">
+                                <strong>
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.PRIVACY'|t|e }}
+                                </strong>
+
+                                <a
+                                    href="{{ service.privacy_url|e('html_attr') }}"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                >
+                                    {{ service.privacy_url|e }}
+                                </a>
+                            </div>
+                        {% endif %}
+
+                        <section class="goo-consent__service-storage">
+                            <h5>
+                                {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.COOKIES'|t|e }}
+                            </h5>
+
+                            {% if service.cookies is empty %}
+                                <p>
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.NONE_DECLARED'|t|e }}
+                                </p>
+                            {% else %}
+                                <div class="goo-consent__service-table-wrap">
+                                    <table class="goo-consent__service-table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">
+                                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.NAME'|t|e }}
+                                                </th>
+
+                                                <th scope="col">
+                                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.PURPOSE'|t|e }}
+                                                </th>
+
+                                                <th scope="col">
+                                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.DURATION'|t|e }}
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for cookie in service.cookies %}
+                                                <tr>
+                                                    <td>
+                                                        <code>{{ cookie.name|e }}</code>
+                                                    </td>
+
+                                                    <td>
+                                                        {{ cookie.purpose|e }}
+                                                    </td>
+
+                                                    <td>
+                                                        {{ cookie.duration|default('—')|e }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                        </section>
+
+                        <section class="goo-consent__service-storage">
+                            <h5>
+                                {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.BROWSER_STORAGE'|t|e }}
+                            </h5>
+
+                            {% if service.storage is empty %}
+                                <p>
+                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.NONE_DECLARED'|t|e }}
+                                </p>
+                            {% else %}
+                                <div class="goo-consent__service-table-wrap">
+                                    <table class="goo-consent__service-table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">
+                                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.TYPE'|t|e }}
+                                                </th>
+
+                                                <th scope="col">
+                                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.KEY'|t|e }}
+                                                </th>
+
+                                                <th scope="col">
+                                                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.DISCLOSURE.PURPOSE'|t|e }}
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for storage in service.storage %}
+                                                <tr>
+                                                    <td>
+                                                        {{ storage.type|e }}
+                                                    </td>
+
+                                                    <td>
+                                                        <code>{{ storage.key|e }}</code>
+                                                    </td>
+
+                                                    <td>
+                                                        {{ storage.purpose|e }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                        </section>
+                    </div>
+                </details>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

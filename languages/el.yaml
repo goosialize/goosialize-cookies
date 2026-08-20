@@ -1,13 +1,11 @@
 PLUGIN_GOOSIALIZE_COOKIES:
   NAME: Goosialize Cookies
   DESCRIPTION: Διαχείριση συγκατάθεσης με privacy-first σχεδιασμό για το Grav.
-
   ADMIN:
     ENABLED: Ενεργό
     CONSENT_VERSION: Έκδοση συγκατάθεσης
     CONSENT_LIFETIME: Διάρκεια συγκατάθεσης (ημέρες)
     PRIVACY_POLICY_URL: URL Πολιτικής Απορρήτου
-
   CATEGORY:
     NECESSARY:
       TITLE: Απαραίτητα
@@ -17,23 +15,37 @@ PLUGIN_GOOSIALIZE_COOKIES:
       DESCRIPTION: Χρησιμοποιούνται για προαιρετικές επιλογές του επισκέπτη.
     ANALYTICS:
       TITLE: Αναλυτικά
-      DESCRIPTION: Χρησιμοποιούνται για την κατανόηση της χρήσης και απόδοσης του ιστοτόπου.
+      DESCRIPTION: Χρησιμοποιούνται για την κατανόηση της χρήσης και απόδοσης του
+        ιστοτόπου.
     MARKETING:
       TITLE: Μάρκετινγκ
       DESCRIPTION: Χρησιμοποιούνται για διαφήμιση και μέτρηση ενεργειών μάρκετινγκ.
-
   UI:
     BANNER_TITLE: Οι επιλογές απορρήτου σας
-    BANNER_DESCRIPTION: Χρησιμοποιούμε απαραίτητες τεχνολογίες για τη λειτουργία του ιστοτόπου. Οι προαιρετικές τεχνολογίες χρησιμοποιούνται μόνο με την άδειά σας.
+    BANNER_DESCRIPTION: Χρησιμοποιούμε απαραίτητες τεχνολογίες για τη λειτουργία του
+      ιστοτόπου. Οι προαιρετικές τεχνολογίες χρησιμοποιούνται μόνο με την άδειά σας.
     ACCEPT_ALL: Αποδοχή όλων
     REJECT_ALL: Απόρριψη όλων
     MANAGE_PREFERENCES: Διαχείριση προτιμήσεων
     SAVE_PREFERENCES: Αποθήκευση προτιμήσεων
     COOKIE_SETTINGS: Ρυθμίσεις cookies
     PREFERENCES_TITLE: Προτιμήσεις απορρήτου
-    PREFERENCES_DESCRIPTION: Επιλέξτε ποιες προαιρετικές τεχνολογίες μπορεί να χρησιμοποιεί ο ιστότοπος. Οι απαραίτητες τεχνολογίες είναι πάντα ενεργές.
+    PREFERENCES_DESCRIPTION: Επιλέξτε ποιες προαιρετικές τεχνολογίες μπορεί να χρησιμοποιεί
+      ο ιστότοπος. Οι απαραίτητες τεχνολογίες είναι πάντα ενεργές.
     ALWAYS_ACTIVE: Πάντα ενεργά
     OPTIONAL: Προαιρετικό
     PRIVACY_POLICY: Πολιτική Απορρήτου
     CLOSE: Κλείσιμο προτιμήσεων απορρήτου
     SAVED: Οι προτιμήσεις απορρήτου αποθηκεύτηκαν.
+  DISCLOSURE:
+    SERVICES: Υπηρεσίες και τεχνολογίες
+    NO_SERVICES: Δεν έχουν δηλωθεί υπηρεσίες για αυτή την κατηγορία.
+    PURPOSE: Σκοπός
+    PRIVACY: Πληροφορίες απορρήτου
+    COOKIES: Cookies
+    BROWSER_STORAGE: Αποθήκευση στον browser
+    NAME: Όνομα
+    DURATION: Διάρκεια
+    TYPE: Τύπος
+    KEY: Κλειδί
+    NONE_DECLARED: Δεν έχει δηλωθεί κάτι.

@@ -8,6 +8,8 @@ use Composer\Autoload\ClassLoader;
 use Grav\Common\Plugin;
 use Grav\Events\PermissionsRegisterEvent;
 use Grav\Framework\Acl\PermissionsReader;
+use Goosialize\Cookies\Disclosure\ServiceDisclosure;
+use Goosialize\Cookies\Service\ServiceConfigLoader;
 
 final class GoosializeCookiesPlugin extends Plugin
 {
@@ -71,6 +73,24 @@ final class GoosializeCookiesPlugin extends Plugin
         ) {
             return;
         }
+
+        $config = $this->grav['config'];
+
+        $serviceConfig = (array) $config->get(
+            'plugins.goosialize-cookies.services',
+            []
+        );
+
+        $registry =
+            (new ServiceConfigLoader())
+                ->load($serviceConfig);
+
+        $this->grav['twig']->twig_vars[
+            'goosialize_cookies_services'
+        ] = (new ServiceDisclosure())
+            ->groupByCategory(
+                $registry->enabled()
+            );
 
         $assets = $this->grav['assets'];
 

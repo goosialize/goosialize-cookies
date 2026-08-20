@@ -123,6 +123,13 @@
                         </p>
                     </div>
 
+                    {% include
+                        'partials/goosialize-cookies-service-disclosure.html.twig'
+                        with {
+                            category: 'necessary'
+                        }
+                    %}
+
                     <div class="goo-consent__category-control">
                         <span class="goo-consent__required">
                             {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.ALWAYS_ACTIVE'|t|e }}
@@ -162,6 +169,13 @@
                                 {% endif %}
                             </p>
                         </div>
+
+                        {% include
+                            'partials/goosialize-cookies-service-disclosure.html.twig'
+                            with {
+                                category: category
+                            }
+                        %}
 
                         <label class="goo-consent__toggle">
                             <span class="goo-consent__sr-only">
