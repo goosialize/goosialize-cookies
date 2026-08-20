@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const RUNTIME_VERSION = '0.2.0';
+  const RUNTIME_VERSION = '1.0.0';
 
   const DEFAULT_CONFIG = Object.freeze({
     consentVersion: 1,

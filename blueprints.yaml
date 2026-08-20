@@ -1,7 +1,7 @@
 name: Goosialize Cookies
 slug: goosialize-cookies
 type: plugin
-version: 0.1.0
+version: 1.0.0
 description: Privacy-first cookie consent and consent infrastructure for the Goosialize ecosystem.
 icon: shield
 author:
