@@ -283,6 +283,34 @@
     }
   }
 
+  function focusInsideModal() {
+    if (
+      !modal
+      || !backdrop
+      || backdrop.hidden
+    ) {
+      return;
+    }
+
+    if (
+      modal.contains(
+        document.activeElement
+      )
+    ) {
+      return;
+    }
+
+    const elements =
+      focusableElements();
+
+    if (elements.length > 0) {
+      elements[0].focus();
+      return;
+    }
+
+    modal.focus();
+  }
+
   function trapFocus(event) {
     if (
       event.key !== 'Tab' ||
@@ -306,6 +334,22 @@
       elements[elements.length - 1];
 
     if (
+      !modal?.contains(
+        document.activeElement
+      )
+    ) {
+      event.preventDefault();
+
+      (
+        event.shiftKey
+          ? last
+          : first
+      ).focus();
+
+      return;
+    }
+
+    if (
       event.shiftKey &&
       document.activeElement === first
     ) {
@@ -321,6 +365,27 @@
       event.preventDefault();
       first.focus();
     }
+  }
+
+  function onFocusIn(event) {
+    if (
+      !backdrop
+      || backdrop.hidden
+      || !modal
+    ) {
+      return;
+    }
+
+    if (
+      event.target
+      && modal.contains(
+        event.target
+      )
+    ) {
+      return;
+    }
+
+    focusInsideModal();
   }
 
   function onKeydown(event) {
@@ -408,6 +473,11 @@
     document.addEventListener(
       'keydown',
       onKeydown
+    );
+
+    document.addEventListener(
+      'focusin',
+      onFocusIn
     );
 
     bindConsentEvents();

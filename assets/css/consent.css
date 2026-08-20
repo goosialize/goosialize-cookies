@@ -514,3 +514,60 @@
         flex-direction: column;
     }
 }
+
+/* P12 accessibility and viewport hardening */
+
+.goo-consent {
+    max-width: 100%;
+}
+
+.goo-consent__banner,
+.goo-consent__backdrop,
+.goo-consent__modal,
+.goo-consent__surface,
+.goo-consent__categories,
+.goo-consent__category,
+.goo-consent__services,
+.goo-consent__service,
+.goo-consent__service-body {
+    min-width: 0;
+}
+
+.goo-consent__backdrop {
+    overscroll-behavior: contain;
+}
+
+.goo-consent__modal {
+    max-width: 100%;
+    max-height: min(88vh, 840px);
+    max-height: min(88dvh, 840px);
+    overscroll-behavior: contain;
+}
+
+.goo-consent__surface,
+.goo-consent__category-copy,
+.goo-consent__service-body,
+.goo-consent__service-field {
+    overflow-wrap: anywhere;
+}
+
+.goo-consent__service-table-wrap {
+    max-width: 100%;
+    overscroll-behavior-inline: contain;
+}
+
+.goo-consent__service-table {
+    min-width: 100%;
+}
+
+@media (max-width: 760px) {
+    .goo-consent__backdrop {
+        max-width: 100vw;
+        max-width: 100dvw;
+    }
+
+    .goo-consent__modal {
+        max-height: 92vh;
+        max-height: 92dvh;
+    }
+}
