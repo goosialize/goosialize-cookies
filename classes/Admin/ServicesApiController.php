@@ -7,6 +7,7 @@ namespace Goosialize\Cookies\Admin;
 use Grav\Plugin\Api\Controllers\AbstractApiController;
 use Grav\Plugin\Api\Response\ApiResponse;
 use Goosialize\Cookies\Service\ServiceConfigLoader;
+use Goosialize\Cookies\Service\ServiceConfigWriter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -28,9 +29,26 @@ final class ServicesApiController extends AbstractApiController
         $registry = (new ServiceConfigLoader())
             ->load($config);
 
+        $services =
+            $this->serializeServices(
+                $registry->all()
+            );
+
+        return ApiResponse::success([
+            'services' => $services,
+            'count' => count($services),
+        ]);
+    }
+    /**
+     * @param list<\Goosialize\Cookies\Service\ServiceDefinition> $items
+     * @return list<array<string, mixed>>
+     */
+    private function serializeServices(
+        array $items
+    ): array {
         $services = [];
 
-        foreach ($registry->all() as $service) {
+        foreach ($items as $service) {
             $services[] = [
                 'id' => $service->id,
                 'name' => $service->name,
@@ -66,9 +84,64 @@ final class ServicesApiController extends AbstractApiController
             ];
         }
 
+        return $services;
+    }
+
+
+    public function replace(
+        ServerRequestInterface $request
+    ): ResponseInterface {
+        $this->requirePermission(
+            $request,
+            'api.goosialize.cookies.services'
+        );
+
+        $body =
+            $this->getRequestBody($request);
+
+        $services =
+            $body['services'] ?? null;
+
+        if (!is_array($services)) {
+            throw new \Grav\Plugin\Api\Exceptions\ValidationException(
+                [
+                    [
+                        'field' => 'services',
+                        'message' =>
+                            'Services must be an object.',
+                    ],
+                ]
+            );
+        }
+
+        try {
+            (new ServiceConfigWriter(
+                $this->config
+            ))->replace($services);
+        } catch (\InvalidArgumentException|\LogicException $error) {
+            throw new \Grav\Plugin\Api\Exceptions\ValidationException(
+                [
+                    [
+                        'field' => 'services',
+                        'message' =>
+                            $error->getMessage(),
+                    ],
+                ]
+            );
+        }
+
+        $registry =
+            (new ServiceConfigLoader())
+                ->load($services);
+
         return ApiResponse::success([
-            'services' => $services,
-            'count' => count($services),
+            'services' =>
+                $this->serializeServices(
+                    $registry->all()
+                ),
+            'count' =>
+                count($registry->all()),
         ]);
     }
+
 }

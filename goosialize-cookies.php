@@ -289,6 +289,14 @@ final class GoosializeCookiesPlugin extends Plugin
                 'index',
             ]
         );
+
+        $routes->patch(
+            '/goosialize-cookies/services',
+            [
+                \Goosialize\Cookies\Admin\ServicesApiController::class,
+                'replace',
+            ]
+        );
     }
 
     private function isEnabled(): bool
