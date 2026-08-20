@@ -1,26 +1,13 @@
-api:
-  goosialize:
-    cookies:
-      type: boolean
-      label: Goosialize Cookies
-      default: false
-
+actions:
+  api.goosialize.cookies:
+    type: access
+    label: Goosialize Cookies
+    actions:
       read:
-        type: boolean
         label: View Goosialize Cookies
-        default: false
-
       write:
-        type: boolean
         label: Configure Goosialize Cookies
-        default: false
-
       services:
-        type: boolean
         label: Manage consent services
-        default: false
-
       scripts:
-        type: boolean
         label: Manage executable consent scripts
-        default: false
