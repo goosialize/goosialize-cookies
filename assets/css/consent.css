@@ -571,3 +571,404 @@
         max-height: 92dvh;
     }
 }
+
+/* P15 — Goosialize visual polish */
+
+.goo-consent__surface {
+    position: relative;
+    overflow: hidden;
+    border-color: rgba(23, 23, 23, 0.16);
+}
+
+.goo-consent__surface::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4px;
+    background: var(--goo-consent-accent);
+}
+
+.goo-consent__banner .goo-consent__title {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    letter-spacing: -0.025em;
+}
+
+.goo-consent__banner .goo-consent__description {
+    max-width: 690px;
+}
+
+.goo-consent__button {
+    min-height: 46px;
+    padding-inline: 18px;
+}
+
+.goo-consent__button--choice {
+    border: 1px solid var(--goo-consent-ink);
+}
+
+.goo-consent__actions
+    [data-goosialize-consent-action="accept-all"],
+.goo-consent__modal-actions
+    [data-goosialize-consent-action="accept-all"] {
+    background: var(--goo-consent-accent);
+    color: var(--goo-consent-ink);
+    border-color: var(--goo-consent-accent);
+}
+
+.goo-consent__actions
+    [data-goosialize-consent-action="reject-all"],
+.goo-consent__modal-actions
+    [data-goosialize-consent-action="reject-all"] {
+    background: var(--goo-consent-ink);
+    color: var(--goo-consent-paper);
+}
+
+.goo-consent__modal {
+    width: min(860px, 100%);
+    max-height: min(86vh, 900px);
+    max-height: min(86dvh, 900px);
+    border: 1px solid rgba(23, 23, 23, 0.14);
+}
+
+.goo-consent__modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    padding: 26px 28px 22px;
+    background: var(--goo-consent-paper);
+}
+
+.goo-consent__modal-header::after {
+    content: "";
+    position: absolute;
+    right: 28px;
+    bottom: -1px;
+    left: 28px;
+    height: 3px;
+    background:
+        linear-gradient(
+            90deg,
+            var(--goo-consent-accent) 0 72px,
+            transparent 72px
+        );
+}
+
+.goo-consent__modal
+    > .goo-consent__modal-header
+    .goo-consent__title {
+    font-size: 1.45rem;
+    letter-spacing: -0.025em;
+}
+
+.goo-consent__modal
+    > .goo-consent__modal-header
+    .goo-consent__description {
+    max-width: 620px;
+    font-size: 0.92rem;
+}
+
+.goo-consent__categories {
+    padding: 4px 28px 10px;
+}
+
+.goo-consent__category {
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+    align-items: start;
+    column-gap: 24px;
+    row-gap: 14px;
+    padding: 24px 0;
+}
+
+.goo-consent__category-copy {
+    align-self: center;
+}
+
+.goo-consent__category-title {
+    font-size: 1.05rem;
+    letter-spacing: -0.012em;
+}
+
+.goo-consent__category-description {
+    max-width: 610px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.goo-consent__category-control,
+.goo-consent__toggle {
+    align-self: center;
+    justify-self: end;
+}
+
+.goo-consent__required {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #f2f2f2;
+    color: var(--goo-consent-ink);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.045em;
+}
+
+.goo-consent__category-control
+    input[disabled] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--goo-consent-ink);
+}
+
+.goo-consent__toggle-track {
+    width: 50px;
+    height: 30px;
+}
+
+.goo-consent__toggle-thumb {
+    width: 24px;
+    height: 24px;
+}
+
+.goo-consent__toggle input:checked
+    + .goo-consent__toggle-track
+    .goo-consent__toggle-thumb {
+    transform: translateX(20px);
+}
+
+.goo-consent__services {
+    margin-top: 2px;
+    padding-top: 14px;
+}
+
+.goo-consent__services-title {
+    margin-bottom: 9px;
+    color: var(--goo-consent-muted);
+    font-size: 0.72rem;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: 0.065em;
+}
+
+.goo-consent__services-empty {
+    padding: 10px 12px;
+    border-radius: 9px;
+    background: #f7f7f7;
+    font-size: 0.8rem;
+}
+
+.goo-consent__service-list {
+    gap: 8px;
+}
+
+.goo-consent__service {
+    overflow: hidden;
+    border-color: rgba(23, 23, 23, 0.14);
+    border-radius: 11px;
+    transition:
+        border-color 120ms ease,
+        box-shadow 120ms ease;
+}
+
+.goo-consent__service[open] {
+    border-color: rgba(23, 23, 23, 0.28);
+    box-shadow:
+        0 8px 22px
+        rgba(0, 0, 0, 0.055);
+}
+
+.goo-consent__service-summary {
+    min-height: 48px;
+    padding: 11px 14px;
+    background: #fff;
+}
+
+.goo-consent__service-summary::after {
+    content: "›";
+    flex: 0 0 auto;
+    margin-left: 8px;
+    font-size: 1.25rem;
+    line-height: 1;
+    transition: transform 120ms ease;
+}
+
+.goo-consent__service[open]
+    > .goo-consent__service-summary::after {
+    transform: rotate(90deg);
+}
+
+.goo-consent__service-name {
+    flex: 1 1 auto;
+    font-size: 0.86rem;
+}
+
+.goo-consent__service-provider {
+    flex: 0 0 auto;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #f3f3f3;
+    font-size: 0.7rem;
+}
+
+.goo-consent__service-body {
+    padding: 14px;
+    border-top: 1px solid var(--goo-consent-border);
+    background: #fbfbfb;
+}
+
+.goo-consent__service-field {
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.goo-consent__service-storage h5 {
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.045em;
+}
+
+.goo-consent__service-table {
+    background: var(--goo-consent-paper);
+    font-size: 0.76rem;
+}
+
+.goo-consent__service-table th {
+    color: var(--goo-consent-muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
+}
+
+.goo-consent__modal-policy {
+    margin: 4px 28px 18px;
+}
+
+.goo-consent__modal-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 4;
+    gap: 12px;
+    padding: 18px 28px;
+    border-top:
+        1px solid
+        rgba(23, 23, 23, 0.14);
+    background:
+        rgba(255, 255, 255, 0.98);
+    box-shadow:
+        0 -10px 25px
+        rgba(0, 0, 0, 0.045);
+}
+
+.goo-consent__modal-actions
+    .goo-consent__button {
+    min-height: 48px;
+}
+
+@media (max-width: 760px) {
+    .goo-consent__surface {
+        padding: 20px 18px;
+    }
+
+    .goo-consent__modal {
+        max-height: 94vh;
+        max-height: 94dvh;
+    }
+
+    .goo-consent__modal-header {
+        padding:
+            22px
+            18px
+            18px;
+    }
+
+    .goo-consent__modal-header::after {
+        right: 18px;
+        left: 18px;
+    }
+
+    .goo-consent__categories {
+        padding:
+            0
+            18px
+            8px;
+    }
+
+    .goo-consent__category {
+        grid-template-columns:
+            minmax(0, 1fr)
+            auto;
+        column-gap: 14px;
+        row-gap: 12px;
+        padding: 20px 0;
+    }
+
+    .goo-consent__services {
+        grid-column: 1 / -1;
+    }
+
+    .goo-consent__modal-policy {
+        margin:
+            4px
+            18px
+            16px;
+    }
+
+    .goo-consent__modal-actions {
+        padding:
+            14px
+            18px
+            calc(
+                14px
+                + env(
+                    safe-area-inset-bottom
+                )
+            );
+    }
+
+    .goo-consent__modal-actions
+        .goo-consent__button {
+        flex: 1 1 100%;
+    }
+
+    .goo-consent__service-summary {
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .goo-consent__service-provider {
+        max-width: 42%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .goo-consent__service,
+    .goo-consent__service-summary::after {
+        transition: none !important;
+    }
+}
+
+/* P15-R2 — equal visual prominence for consent choices */
+
+.goo-consent__actions
+    [data-goosialize-consent-action="accept-all"],
+.goo-consent__actions
+    [data-goosialize-consent-action="reject-all"],
+.goo-consent__modal-actions
+    [data-goosialize-consent-action="accept-all"],
+.goo-consent__modal-actions
+    [data-goosialize-consent-action="reject-all"] {
+    background: var(--goo-consent-ink);
+    color: var(--goo-consent-paper);
+    border-color: var(--goo-consent-ink);
+}
+
+.goo-consent__modal-actions
+    [data-goosialize-consent-action="save"] {
+    background: var(--goo-consent-paper);
+    color: var(--goo-consent-ink);
+    border: 1px solid var(--goo-consent-ink);
+}
