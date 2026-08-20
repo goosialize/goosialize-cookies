@@ -64,6 +64,14 @@ final class GoosializeCookiesPlugin extends Plugin
         );
 
         $assets->addJs(
+            'plugin://goosialize-cookies/assets/js/blocker.js',
+            [
+                'group' => 'bottom',
+                'priority' => 85,
+            ]
+        );
+
+        $assets->addJs(
             'plugin://goosialize-cookies/assets/js/ui.js',
             [
                 'group' => 'bottom',
