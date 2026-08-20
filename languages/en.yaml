@@ -36,6 +36,10 @@ PLUGIN_GOOSIALIZE_COOKIES:
     PRIVACY_POLICY: Privacy Policy
     CLOSE: Close privacy preferences
     SAVED: Your privacy preferences have been saved.
+    RECONSENT_EXPIRED: Your previous privacy choices have expired. Please review your
+      preferences again.
+    RECONSENT_VERSION_CHANGED: Our privacy settings have changed. Please review your
+      choices again.
   DISCLOSURE:
     SERVICES: Services and technologies
     NO_SERVICES: No services declared for this category.

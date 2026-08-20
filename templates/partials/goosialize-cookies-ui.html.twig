@@ -5,6 +5,9 @@
     class="goo-consent"
     data-goosialize-consent-root
     data-saved-message="{{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.SAVED'|t|e('html_attr') }}"
+    data-banner-default-message="{{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.BANNER_DESCRIPTION'|t|e('html_attr') }}"
+    data-reconsent-expired-message="{{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.RECONSENT_EXPIRED'|t|e('html_attr') }}"
+    data-reconsent-version-message="{{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.RECONSENT_VERSION_CHANGED'|t|e('html_attr') }}"
 >
     <section
         class="goo-consent__banner"
@@ -25,6 +28,7 @@
                 <p
                     class="goo-consent__description"
                     id="goo-consent-banner-description"
+                    data-goosialize-consent-banner-description
                 >
                     {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.BANNER_DESCRIPTION'|t|e }}
                 </p>

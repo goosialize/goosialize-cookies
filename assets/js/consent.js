@@ -22,10 +22,14 @@
     'marketing'
   ]);
 
+  const MALFORMED_COOKIE =
+    Symbol('goosialize-consent-malformed-cookie');
+
   let config = { ...DEFAULT_CONFIG };
 
   let snapshot = null;
   let ready = false;
+  let lifecycleStatus = 'missing';
 
   function nowIso() {
     return new Date().toISOString();
@@ -253,7 +257,7 @@
         decodeURIComponent(encoded)
       );
     } catch {
-      return null;
+      return MALFORMED_COOKIE;
     }
   }
 
@@ -293,6 +297,7 @@
       : null;
 
     snapshot = clone(next);
+    lifecycleStatus = 'valid';
 
     if (persist) {
       writeCookie(snapshot);
@@ -328,23 +333,125 @@
   }
 
   function restore() {
-    const stored = readCookie();
+    const raw = readCookie();
 
-    if (!stored) {
+    if (raw === null) {
       snapshot = null;
+      lifecycleStatus = 'missing';
+
+      return null;
+    }
+
+    if (raw === MALFORMED_COOKIE) {
+      snapshot = null;
+      lifecycleStatus = 'malformed';
+
+      deleteCookie();
+
+      return null;
+    }
+
+    if (
+      typeof raw !== 'object'
+      || Array.isArray(raw)
+    ) {
+      snapshot = null;
+      lifecycleStatus = 'malformed';
+
+      deleteCookie();
+
+      return null;
+    }
+
+    if (
+      !Number.isInteger(raw.version)
+      || raw.version < 1
+    ) {
+      snapshot = null;
+      lifecycleStatus = 'malformed';
+
+      deleteCookie();
+
+      return null;
+    }
+
+    if (
+      raw.version !== config.consentVersion
+    ) {
+      snapshot = null;
+      lifecycleStatus = 'version_mismatch';
+
+      deleteCookie();
+
+      return null;
+    }
+
+    if (
+      typeof raw.timestamp !== 'string'
+      || raw.timestamp === ''
+    ) {
+      snapshot = null;
+      lifecycleStatus = 'malformed';
+
+      deleteCookie();
+
+      return null;
+    }
+
+    const time =
+      Date.parse(raw.timestamp);
+
+    if (!Number.isFinite(time)) {
+      snapshot = null;
+      lifecycleStatus = 'malformed';
+
+      deleteCookie();
+
+      return null;
+    }
+
+    const ageMs =
+      Date.now() - time;
+
+    if (ageMs < 0) {
+      snapshot = null;
+      lifecycleStatus = 'future_timestamp';
+
+      deleteCookie();
+
+      return null;
+    }
+
+    const maxAgeMs =
+      config.lifetimeDays
+      * 24
+      * 60
+      * 60
+      * 1000;
+
+    if (ageMs > maxAgeMs) {
+      snapshot = null;
+      lifecycleStatus = 'expired';
+
+      deleteCookie();
+
       return null;
     }
 
     const restored =
-      validateStoredSnapshot(stored);
+      validateStoredSnapshot(raw);
 
     if (!restored) {
-      deleteCookie();
       snapshot = null;
+      lifecycleStatus = 'malformed';
+
+      deleteCookie();
+
       return null;
     }
 
     snapshot = restored;
+    lifecycleStatus = 'valid';
 
     return clone(snapshot);
   }
@@ -414,6 +521,10 @@
     return snapshot
       ? clone(snapshot)
       : null;
+  }
+
+  function getLifecycleStatus() {
+    return lifecycleStatus;
   }
 
   function getState() {
@@ -487,6 +598,7 @@
 
     deleteCookie();
     snapshot = null;
+    lifecycleStatus = 'missing';
 
     dispatch(
       'goosialize:consent-changed',
@@ -509,6 +621,7 @@
     },
 
     getState,
+    getLifecycleStatus,
     getSnapshot,
     has,
     acceptAll,

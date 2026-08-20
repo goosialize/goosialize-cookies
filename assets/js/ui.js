@@ -13,6 +13,7 @@
   let initialized = false;
   let root = null;
   let banner = null;
+  let bannerDescription = null;
   let backdrop = null;
   let modal = null;
   let settings = null;
@@ -68,6 +69,39 @@
     return consent()?.getState?.() ?? 'unknown';
   }
 
+  function lifecycleStatus() {
+    return consent()?.getLifecycleStatus?.()
+      ?? 'missing';
+  }
+
+  function syncBannerMessage() {
+    if (!bannerDescription || !root) {
+      return;
+    }
+
+    const lifecycle =
+      lifecycleStatus();
+
+    let message =
+      root.dataset.bannerDefaultMessage
+      ?? '';
+
+    if (lifecycle === 'expired') {
+      message =
+        root.dataset.reconsentExpiredMessage
+        ?? message;
+    } else if (
+      lifecycle === 'version_mismatch'
+    ) {
+      message =
+        root.dataset.reconsentVersionMessage
+        ?? message;
+    }
+
+    bannerDescription.textContent =
+      message;
+  }
+
   function syncToggles() {
     const current = snapshot();
 
@@ -99,6 +133,7 @@
 
   function sync() {
     syncToggles();
+    syncBannerMessage();
     syncVisibility();
   }
 
@@ -342,6 +377,10 @@
 
     backdrop = query(
       '[data-goosialize-consent-backdrop]'
+    );
+
+    bannerDescription = query(
+      '[data-goosialize-consent-banner-description]'
     );
 
     modal = query(
