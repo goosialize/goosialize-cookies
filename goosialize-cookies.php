@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Grav\Plugin;
 
+use Composer\Autoload\ClassLoader;
 use Grav\Common\Plugin;
 use Grav\Events\PermissionsRegisterEvent;
 use Grav\Framework\Acl\PermissionsReader;
@@ -14,6 +15,7 @@ final class GoosializeCookiesPlugin extends Plugin
     {
         return [
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
+            'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
             'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
             'onOutputGenerated' => ['onOutputGenerated', 0],
             'onApiRegisterRoutes' => ['onApiRegisterRoutes', 0],
@@ -23,15 +25,41 @@ final class GoosializeCookiesPlugin extends Plugin
         ];
     }
 
-    public function autoload(): \Composer\Autoload\ClassLoader
+    public function autoload(): ClassLoader
     {
-        return require __DIR__ . '/vendor/autoload.php';
+        $loader = new ClassLoader();
+
+        $loader->addPsr4(
+            'Goosialize\\Cookies\\',
+            __DIR__ . '/classes'
+        );
+
+        $loader->register();
+
+        return $loader;
     }
 
     public function onPluginsInitialized(): void
     {
         if (!$this->isEnabled()) {
             return;
+        }
+    }
+
+    public function onTwigTemplatePaths(): void
+    {
+        $twig = $this->grav['twig'];
+
+        $path = __DIR__ . '/templates';
+
+        if (
+            !in_array(
+                $path,
+                $twig->twig_paths,
+                true
+            )
+        ) {
+            $twig->twig_paths[] = $path;
         }
     }
 
@@ -60,6 +88,16 @@ final class GoosializeCookiesPlugin extends Plugin
                 'priority' => 100,
             ]
         );
+
+        if ($this->isGoogleConsentModeEnabled()) {
+            $assets->addJs(
+                'plugin://goosialize-cookies/assets/js/google-consent-mode.js',
+                [
+                    'group' => 'bottom',
+                    'priority' => 95,
+                ]
+            );
+        }
 
         $assets->addJs(
             'plugin://goosialize-cookies/assets/js/bootstrap.js',
@@ -298,6 +336,23 @@ final class GoosializeCookiesPlugin extends Plugin
             ]
         );
     }
+
+    private function isGoogleConsentModeEnabled(): bool
+    {
+        $enabled = $this->grav['config']->get(
+            'plugins.goosialize-cookies.integrations.google.enabled',
+            false
+        );
+
+        $mode = $this->grav['config']->get(
+            'plugins.goosialize-cookies.integrations.google.consent_mode',
+            'basic'
+        );
+
+        return $enabled === true
+            && $mode === 'basic';
+    }
+
 
     private function isEnabled(): bool
     {
