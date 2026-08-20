@@ -89,6 +89,14 @@ final class GoosializeCookiesPlugin extends Plugin
             ]
         );
 
+        $assets->addJs(
+            'plugin://goosialize-cookies/assets/js/consumer.js',
+            [
+                'group' => 'bottom',
+                'priority' => 98,
+            ]
+        );
+
         if ($this->isGoogleConsentModeEnabled()) {
             $assets->addJs(
                 'plugin://goosialize-cookies/assets/js/google-consent-mode.js',
