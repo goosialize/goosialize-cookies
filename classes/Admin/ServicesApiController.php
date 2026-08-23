@@ -34,7 +34,7 @@ final class ServicesApiController extends AbstractApiController
                 $registry->all()
             );
 
-        return ApiResponse::success([
+        return ApiResponse::ok([
             'services' => $services,
             'count' => count($services),
         ]);
@@ -134,7 +134,7 @@ final class ServicesApiController extends AbstractApiController
             (new ServiceConfigLoader())
                 ->load($services);
 
-        return ApiResponse::success([
+        return ApiResponse::ok([
             'services' =>
                 $this->serializeServices(
                     $registry->all()
