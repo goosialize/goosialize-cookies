@@ -3,6 +3,7 @@
 
 1. [](#new)
    * Add the presentation-provider runtime bridge for compatible Goosialize Cookies presentation addons.
+   * Add a native Admin2 Available Add-ons section with local installed-state discovery.
 
 2. [](#improved)
    * Keep premium presentation implementation outside the FREE consent authority while exposing the shared presentation integration contract.

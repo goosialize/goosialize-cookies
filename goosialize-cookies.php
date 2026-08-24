@@ -8,6 +8,7 @@ use Composer\Autoload\ClassLoader;
 use Grav\Common\Plugin;
 use Grav\Events\PermissionsRegisterEvent;
 use Grav\Framework\Acl\PermissionsReader;
+use Goosialize\Cookies\Admin\AvailableAddonRegistry;
 use Goosialize\Cookies\Disclosure\ServiceDisclosure;
 use Goosialize\Cookies\Presentation\PresentationBridge;
 use Goosialize\Cookies\Service\ServiceConfigLoader;
@@ -24,6 +25,7 @@ final class GoosializeCookiesPlugin extends Plugin
             'onApiRegisterRoutes' => ['onApiRegisterRoutes', 0],
             'onApiSidebarItems' => ['onApiSidebarItems', 0],
             'onApiPluginPageInfo' => ['onApiPluginPageInfo', 0],
+            'onApiBlueprintResolved' => ['onApiBlueprintResolved', 0],
             PermissionsRegisterEvent::class => ['onRegisterPermissions', 1000],
         ];
     }
@@ -285,6 +287,97 @@ final class GoosializeCookiesPlugin extends Plugin
             'icon' => 'fa-cookie-bite',
             'page_type' => 'component',
         ];
+    }
+
+    public function onApiBlueprintResolved(
+        \RocketTheme\Toolbox\Event\Event $event
+    ): void {
+        $matches =
+            ($event['context'] ?? null) === 'plugin-page'
+            && ($event['plugin'] ?? null)
+                === 'goosialize-cookies'
+            && ($event['page_id'] ?? null)
+                === 'goosialize-cookies'
+            && $this->isEnabled()
+            && $this->admin2Allowed(
+                $event['user'] ?? null
+            );
+
+        if ($matches === false) {
+            return;
+        }
+
+        $fields =
+            is_array($event['fields'] ?? null)
+                ? $event['fields']
+                : [];
+
+        $addonFields = [];
+
+        foreach (
+            AvailableAddonRegistry::all()
+            as $addon
+        ) {
+            $resource =
+                $this->grav['locator']->findResource(
+                    'plugin://' . $addon['slug']
+                );
+
+            $installed =
+                is_string($resource)
+                && trim($resource) !== '';
+
+            $content = [
+                '**' . $addon['name'] . '**',
+                '',
+                $addon['description'],
+                '',
+                'Type: ' . $addon['kind'],
+                '',
+                'Requires Goosialize Cookies >= '
+                    . $addon['minimum_free_version'],
+                '',
+                'Status: **'
+                    . (
+                        $installed
+                            ? 'Installed'
+                            : 'Not installed'
+                    )
+                    . '**',
+            ];
+
+            if ($installed) {
+                $content[] = '';
+                $content[] =
+                    'Manage this add-on from its '
+                    . 'Goosialize Cookies Appearance '
+                    . 'Admin2 sidebar entry.';
+            }
+
+            $addonFields[] = [
+                'name' =>
+                    'available_addons.'
+                    . $addon['slug'],
+                'type' => 'display',
+                'markdown' => true,
+                'content' => implode(
+                    "\n",
+                    $content
+                ),
+            ];
+        }
+
+        $fields[] = [
+            'name' => 'available_addons',
+            'type' => 'section',
+            'title' => 'Available Add-ons',
+            'text' =>
+                'Extend Goosialize Cookies with '
+                . 'compatible add-ons.',
+            'fields' => $addonFields,
+        ];
+
+        $event['fields'] = $fields;
     }
 
     private function admin2Allowed(
