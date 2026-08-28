@@ -1,6 +1,39 @@
 {% set cookie_config = config.plugins['goosialize-cookies'] %}
 {% set policy_url = cookie_config.policy_url|default('') %}
 
+{% set render = goosialize_cookies_render|default({}) %}
+{% set render_active = render.active|default(false) %}
+{% set render_banner = render.banner|default({}) %}
+{% set render_buttons = render_banner.buttons|default({}) %}
+{% set render_preferences = render.preferences|default({}) %}
+{% set render_settings = render.settings_button|default({}) %}
+{% set render_tablet = render.tablet|default({}) %}
+{% set render_mobile = render.mobile|default({}) %}
+
+{% set default_banner_title =
+    'PLUGIN_GOOSIALIZE_COOKIES.UI.BANNER_TITLE'|t
+%}
+
+{% set default_banner_message =
+    'PLUGIN_GOOSIALIZE_COOKIES.UI.BANNER_DESCRIPTION'|t
+%}
+
+{% set default_accept =
+    'PLUGIN_GOOSIALIZE_COOKIES.UI.ACCEPT_ALL'|t
+%}
+
+{% set default_reject =
+    'PLUGIN_GOOSIALIZE_COOKIES.UI.REJECT_ALL'|t
+%}
+
+{% set default_manage =
+    'PLUGIN_GOOSIALIZE_COOKIES.UI.MANAGE_PREFERENCES'|t
+%}
+
+{% set default_settings =
+    'PLUGIN_GOOSIALIZE_COOKIES.UI.COOKIE_SETTINGS'|t
+%}
+
 <div
     class="goo-consent"
     data-goosialize-consent-root
@@ -8,6 +41,35 @@
     data-banner-default-message="{{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.BANNER_DESCRIPTION'|t|e('html_attr') }}"
     data-reconsent-expired-message="{{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.RECONSENT_EXPIRED'|t|e('html_attr') }}"
     data-reconsent-version-message="{{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.RECONSENT_VERSION_CHANGED'|t|e('html_attr') }}"
+    {% if render_active %}
+        data-goosialize-presentation="appearance"
+        data-goosialize-banner-mode="{{ render_banner.mode|e('html_attr') }}"
+        data-goosialize-effective-banner-mode="{{ render_banner.mode|e('html_attr') }}"
+        data-goosialize-banner-position="{{ render_banner.position|e('html_attr') }}"
+        data-goosialize-banner-content-alignment="{{ render_banner.content_alignment|e('html_attr') }}"
+        data-goosialize-effective-content-alignment="{{ render_banner.content_alignment|e('html_attr') }}"
+        data-goosialize-button-layout="{{ render_buttons.layout|e('html_attr') }}"
+        data-goosialize-button-alignment="{{ render_buttons.alignment|e('html_attr') }}"
+        data-goosialize-effective-stack-buttons="false"
+        data-goosialize-effective-full-width="false"
+        data-goosialize-preferences-backdrop="{{ render_preferences.backdrop_enabled ? 'true' : 'false' }}"
+        data-goosialize-preferences-sticky-footer="{{ render_preferences.sticky_footer ? 'true' : 'false' }}"
+        data-goosialize-toggle-style="{{ render_preferences.toggles.style|e('html_attr') }}"
+        data-goosialize-settings-position="{{ render_settings.position|e('html_attr') }}"
+        data-goosialize-tablet-breakpoint="{{ render_tablet.breakpoint }}"
+        data-goosialize-tablet-banner-mode="{{ render_tablet.banner_mode|e('html_attr') }}"
+        data-goosialize-tablet-full-width="{{ render_tablet.full_width ? 'true' : 'false' }}"
+        data-goosialize-tablet-edge-spacing="{{ render_tablet.edge_spacing }}"
+        data-goosialize-tablet-stack-buttons="{{ render_tablet.stack_buttons ? 'true' : 'false' }}"
+        data-goosialize-tablet-content-alignment="{{ render_tablet.content_alignment|e('html_attr') }}"
+        data-goosialize-mobile-breakpoint="{{ render_mobile.breakpoint }}"
+        data-goosialize-mobile-banner-mode="{{ render_mobile.banner_mode|e('html_attr') }}"
+        data-goosialize-mobile-full-width="{{ render_mobile.full_width ? 'true' : 'false' }}"
+        data-goosialize-mobile-edge-spacing="{{ render_mobile.edge_spacing }}"
+        data-goosialize-mobile-stack-buttons="{{ render_mobile.stack_buttons ? 'true' : 'false' }}"
+        data-goosialize-mobile-content-alignment="{{ render_mobile.content_alignment|e('html_attr') }}"
+        style="{{ render.style|e('html_attr') }}"
+    {% endif %}
 >
     <section
         class="goo-consent__banner"
@@ -22,7 +84,7 @@
                     class="goo-consent__title"
                     id="goo-consent-banner-title"
                 >
-                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.BANNER_TITLE'|t|e }}
+                    {{ render_banner.content.title|default(default_banner_title, true)|e }}
                 </h2>
 
                 <p
@@ -30,7 +92,7 @@
                     id="goo-consent-banner-description"
                     data-goosialize-consent-banner-description
                 >
-                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.BANNER_DESCRIPTION'|t|e }}
+                    {{ render_banner.content.message|default(default_banner_message, true)|e }}
                 </p>
 
                 {% if policy_url %}
@@ -52,7 +114,7 @@
                     class="goo-consent__button goo-consent__button--choice"
                     data-goosialize-consent-action="accept-all"
                 >
-                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.ACCEPT_ALL'|t|e }}
+                    {{ render_buttons.accept.label|default(default_accept, true)|e }}
                 </button>
 
                 <button
@@ -60,7 +122,7 @@
                     class="goo-consent__button goo-consent__button--choice"
                     data-goosialize-consent-action="reject-all"
                 >
-                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.REJECT_ALL'|t|e }}
+                    {{ render_buttons.reject.label|default(default_reject, true)|e }}
                 </button>
 
                 <button
@@ -68,7 +130,7 @@
                     class="goo-consent__button goo-consent__button--secondary"
                     data-goosialize-consent-action="manage"
                 >
-                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.MANAGE_PREFERENCES'|t|e }}
+                    {{ render_buttons.customize.label|default(default_manage, true)|e }}
                 </button>
             </div>
         </div>
@@ -231,7 +293,7 @@
                     class="goo-consent__button goo-consent__button--choice"
                     data-goosialize-consent-action="reject-all"
                 >
-                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.REJECT_ALL'|t|e }}
+                    {{ render_buttons.reject.label|default(default_reject, true)|e }}
                 </button>
 
                 <button
@@ -239,7 +301,7 @@
                     class="goo-consent__button goo-consent__button--choice"
                     data-goosialize-consent-action="accept-all"
                 >
-                    {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.ACCEPT_ALL'|t|e }}
+                    {{ render_buttons.accept.label|default(default_accept, true)|e }}
                 </button>
             </footer>
         </section>
@@ -252,7 +314,7 @@
         data-goosialize-consent-settings
         hidden
     >
-        {{ 'PLUGIN_GOOSIALIZE_COOKIES.UI.COOKIE_SETTINGS'|t|e }}
+        {{ render_settings.label|default(default_settings, true)|e }}
     </button>
 
     <div

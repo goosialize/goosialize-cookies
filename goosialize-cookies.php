@@ -10,6 +10,7 @@ use Grav\Events\PermissionsRegisterEvent;
 use Grav\Framework\Acl\PermissionsReader;
 use Goosialize\Cookies\Admin\AvailableAddonRegistry;
 use Goosialize\Cookies\Disclosure\ServiceDisclosure;
+use Goosialize\Cookies\Presentation\FrontendPresentationRenderer;
 use Goosialize\Cookies\Presentation\PresentationBridge;
 use Goosialize\Cookies\Service\ServiceConfigLoader;
 
@@ -86,9 +87,17 @@ final class GoosializeCookiesPlugin extends Plugin
         $presentation = (new PresentationBridge())
             ->resolve($provider);
 
+        $presentationData =
+            $presentation->toArray();
+
         $this->grav['twig']->twig_vars[
             'goosialize_cookies_presentation'
-        ] = $presentation->toArray();
+        ] = $presentationData;
+
+        $this->grav['twig']->twig_vars[
+            'goosialize_cookies_render'
+        ] = (new FrontendPresentationRenderer())
+            ->render($presentationData);
 
         $serviceConfig = (array) $config->get(
             'plugins.goosialize-cookies.services',
@@ -154,6 +163,14 @@ final class GoosializeCookiesPlugin extends Plugin
             [
                 'group' => 'bottom',
                 'priority' => 85,
+            ]
+        );
+
+        $assets->addJs(
+            'plugin://goosialize-cookies/assets/js/presentation.js',
+            [
+                'group' => 'bottom',
+                'priority' => 82,
             ]
         );
 

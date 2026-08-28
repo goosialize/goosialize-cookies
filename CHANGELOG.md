@@ -1,3 +1,12 @@
+# 1.1.1
+## 08/28/2026
+
+1. [](#fixed)
+   * Render normalized presentation-provider values in the real frontend consent interface.
+   * Add a Core-owned whitelist renderer for banner, preferences and settings presentation values.
+   * Preserve consent action semantics, equal-access choices and withdrawal ownership while applying Appearance styling.
+   * Add bounded responsive presentation behavior without allowing arbitrary HTML, CSS, Twig or JavaScript.
+
 # 1.1.0
 ## 08/24/2026
 
