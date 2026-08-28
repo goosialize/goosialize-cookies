@@ -20,7 +20,7 @@ final class AvailableAddonRegistry
                 'kind' =>
                     'Paid commercial add-on',
                 'minimum_free_version' =>
-                    '1.1.0',
+                    '1.1.1',
                 'description' =>
                     'Advanced presentation controls for the '
                     . 'Goosialize Cookies consent interface.',

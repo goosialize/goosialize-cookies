@@ -68,6 +68,9 @@ Integration MUST be read-only from the Goosialize Analytics side.
 
 Goosialize Cookies Appearance depends on Goosialize Cookies.
 
+For Goosialize Cookies Appearance 1.0.0 frontend presentation, the
+minimum supported FREE Core version is Goosialize Cookies 1.1.1.
+
 The FREE plugin remains fully functional without the Appearance addon.
 
 The Appearance addon consumes a presentation extension contract and
