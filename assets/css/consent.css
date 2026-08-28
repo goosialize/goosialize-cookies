@@ -1170,14 +1170,20 @@
     box-shadow: var(--goo-p-settings-shadow);
 }
 
-.goo-consent[data-goosialize-presentation="appearance"]
-    [data-goosialize-effective-content-alignment="center"]
+.goo-consent[
+    data-goosialize-presentation="appearance"
+][
+    data-goosialize-effective-content-alignment="center"
+]
     .goo-consent__copy {
     text-align: center;
 }
 
-.goo-consent[data-goosialize-presentation="appearance"]
-    [data-goosialize-effective-content-alignment="right"]
+.goo-consent[
+    data-goosialize-presentation="appearance"
+][
+    data-goosialize-effective-content-alignment="right"
+]
     .goo-consent__copy {
     text-align: right;
 }
@@ -1187,32 +1193,47 @@
     justify-content: flex-start;
 }
 
-.goo-consent[data-goosialize-presentation="appearance"]
-    [data-goosialize-button-alignment="center"]
+.goo-consent[
+    data-goosialize-presentation="appearance"
+][
+    data-goosialize-button-alignment="center"
+]
     .goo-consent__actions {
     justify-content: center;
 }
 
-.goo-consent[data-goosialize-presentation="appearance"]
-    [data-goosialize-button-alignment="right"]
+.goo-consent[
+    data-goosialize-presentation="appearance"
+][
+    data-goosialize-button-alignment="right"
+]
     .goo-consent__actions {
     justify-content: flex-end;
 }
 
-.goo-consent[data-goosialize-presentation="appearance"]
-    [data-goosialize-button-layout="column"]
+.goo-consent[
+    data-goosialize-presentation="appearance"
+][
+    data-goosialize-button-layout="column"
+]
     .goo-consent__actions {
     flex-direction: column;
 }
 
-.goo-consent[data-goosialize-presentation="appearance"]
-    [data-goosialize-effective-stack-buttons="true"]
+.goo-consent[
+    data-goosialize-presentation="appearance"
+][
+    data-goosialize-effective-stack-buttons="true"
+]
     .goo-consent__actions {
     flex-direction: column;
 }
 
-.goo-consent[data-goosialize-presentation="appearance"]
-    [data-goosialize-effective-stack-buttons="true"]
+.goo-consent[
+    data-goosialize-presentation="appearance"
+][
+    data-goosialize-effective-stack-buttons="true"
+]
     .goo-consent__actions
     .goo-consent__button {
     width: 100%;

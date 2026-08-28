@@ -292,6 +292,74 @@ $check(
     'PRESENTATION_JS_REGISTERED'
 );
 
+$css =
+    file_get_contents(
+        dirname(__DIR__)
+        . '/assets/css/consent.css'
+    );
+
+$check(
+    is_string($css),
+    'PRESENTATION_CSS_READABLE'
+);
+
+$forbiddenDescendantSelectors = [
+    '.goo-consent[data-goosialize-presentation="appearance"]'
+        . PHP_EOL
+        . '    [data-goosialize-effective-content-alignment=',
+
+    '.goo-consent[data-goosialize-presentation="appearance"]'
+        . PHP_EOL
+        . '    [data-goosialize-button-alignment=',
+
+    '.goo-consent[data-goosialize-presentation="appearance"]'
+        . PHP_EOL
+        . '    [data-goosialize-button-layout=',
+
+    '.goo-consent[data-goosialize-presentation="appearance"]'
+        . PHP_EOL
+        . '    [data-goosialize-effective-stack-buttons=',
+];
+
+foreach (
+    $forbiddenDescendantSelectors
+    as $forbiddenSelector
+) {
+    $check(
+        str_contains(
+            $css,
+            $forbiddenSelector
+        ) === false,
+        'NO_ROOT_STATE_DESCENDANT_SELECTOR'
+    );
+}
+
+$requiredRootStates = [
+    'data-goosialize-effective-content-alignment="center"',
+    'data-goosialize-effective-content-alignment="right"',
+    'data-goosialize-button-alignment="center"',
+    'data-goosialize-button-alignment="right"',
+    'data-goosialize-button-layout="column"',
+    'data-goosialize-effective-stack-buttons="true"',
+];
+
+foreach ($requiredRootStates as $rootState) {
+    $check(
+        str_contains(
+            $css,
+            $rootState
+        ),
+        'ROOT_STATE_SELECTOR_PRESENT_'
+        . strtoupper(
+            preg_replace(
+                '/[^A-Za-z0-9]+/',
+                '_',
+                $rootState
+            )
+        )
+    );
+}
+
 echo
     'P22_C2_B1_ASSERTIONS='
     . $assertions
